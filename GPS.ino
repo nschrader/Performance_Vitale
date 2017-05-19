@@ -43,3 +43,7 @@ void parseGPGGA() {
   strncpy(out, buffer + LAT_OFFSET, LAT_LONG_LENGTH);
 }
 
+bool isValidGPS(char *gps) {
+  return gps != NULL;
+}
+

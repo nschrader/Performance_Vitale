@@ -17,7 +17,7 @@ float getTemperature() {
   return dht.readTemperature();
 }
 
-bool isvalid(float h, float t) {
-  return !isnan(h) && !isnan(t);
+bool isValidTempHumidity(float h, float t) {
+  return h != 0.0 && t != 0.0;
 }
 
