@@ -6,7 +6,6 @@ void setup() {
   Serial.begin(9600);
   beginDHT();
   beginGPS();
-  Serial.print("Test1");
   beginLuminosity();
 }
 
@@ -19,7 +18,6 @@ void loop() {
   //  return;
  // String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + gps + '\n';
   //Serial.print(out);
-  Serial.print("Test2");
   getColorTemperature();
   delay(UPDATE_INTERVAL);
 }

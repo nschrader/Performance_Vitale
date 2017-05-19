@@ -48,6 +48,7 @@ class GroveColorSensor
     void setGain();
     // Start ADC of the colour sensor
     void setEnableADC();
+    void readData();
 
     // Used for storing the colour data
     int readingdata_[8];
