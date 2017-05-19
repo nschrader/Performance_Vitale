@@ -11,7 +11,8 @@ void beginGPS() {
   SoftSerial.begin(9600);
 }
 
-void readGPS() {
+char *readGPS() {
+  clearBufferArray();
   while (SoftSerial.available())
   {
     buffer[count++] = SoftSerial.read();  
@@ -20,15 +21,15 @@ void readGPS() {
     if (!strcmp(&buffer[count-2], "$$"))
       break;
   }
-  //if (!strcmp(buffer, "$GPGGA"))
-    Serial.write(buffer, count);
-    Serial.write('\n');
   count = 0;
+  if (!strncmp(buffer, "$GPGGA", 5))
+    return buffer;
+   else
+    return NULL;
 }
 
 
-void clearBufferArray()
-{
+void clearBufferArray() {
   for (int i = 0; i < count; i++)
     buffer[i] = NULL;
 }

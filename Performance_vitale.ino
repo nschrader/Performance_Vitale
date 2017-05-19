@@ -12,6 +12,10 @@ void loop() {
   //float t = getTemperature();
   //String out = String(ppm) + ", " + String(h) + ", " + String(t) + '\n';
   //Serial.print(out);
-  readGPS();
+  char *buffer = readGPS();
+  if (buffer != NULL) {
+    Serial.write(buffer);
+    Serial.write('\n');
+  }
   delay(UPDATE_INTERVAL);
 }
