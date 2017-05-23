@@ -7,7 +7,7 @@ GroveColorSensor::GroveColorSensor()
   : triggerMode_(INTEG_MODE_FREE | INTEG_PARAM_PULSE_COUNT1)
   , interruptSource_(INT_SOURCE_CLEAR)
   , interruptMode_(INTR_LEVEL | INTR_PERSIST_EVERY)
-  , gainAndPrescaler_(GAIN_1 | PRESCALER_1)
+  , gainAndPrescaler_(GAIN_64 | PRESCALER_1)
   , sensorAddress_(COLOR_SENSOR_ADDR)
 {
   GroveColorSensor::setTimingReg();
@@ -82,13 +82,6 @@ void GroveColorSensor::clearInterrupt()
   Wire.endTransmission();
 }
 
-void GroveColorSensor::readData() {
-  green_  = readingdata_[1] * 256 + readingdata_[0];
-  red_  = readingdata_[3] * 256 + readingdata_[2];
-  blue_ = readingdata_[5] * 256 + readingdata_[4];
-  clear_  = readingdata_[7] * 256 + readingdata_[6];
-}
-
 void GroveColorSensor::readRGBC(int *red, int *green, int *blue, int *clear)
 {
   Wire.beginTransmission(sensorAddress_);
@@ -104,10 +97,14 @@ void GroveColorSensor::readRGBC(int *red, int *green, int *blue, int *clear)
     for (i = 0; i < 8; ++i)
     {
       readingdata_[i] = Wire.read();
-      //Serial.println(readingdata_[i], BIN);
+      //Serial.println(readingdata_[i]);
     }
   }
-  readData();
+  
+  green_  = readingdata_[1] * 256 + readingdata_[0];
+  red_  = readingdata_[3] * 256 + readingdata_[2];
+  blue_ = readingdata_[5] * 256 + readingdata_[4];
+  clear_  = readingdata_[7] * 256 + readingdata_[6];
 
   double tmp;
   int maxColor;
@@ -210,8 +207,6 @@ void GroveColorSensor::calculateCoordinate(double *xValue, double *yValue)
   double Z;
   double x;
   double y;
-
-  readData();
 
   X = (-0.14282) * red_ + (1.54924) * green_ + (-0.95641) * blue_;
   Y = (-0.32466) * red_ + (1.57837) * green_ + (-0.73191) * blue_;

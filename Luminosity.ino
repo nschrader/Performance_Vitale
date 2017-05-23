@@ -1,6 +1,11 @@
 #include "GroveColorSensor.h"
 
+#define GAIN 64
+#define UW_CM2_PER_COUNT_X64 77
+#define LUX_PER_UW_CM2 7
+
 void beginLuminosity() {
+  Wire.begin();
   GroveColorSensor colorSensor;
   colorSensor.ledStatus = 0;
 }
@@ -13,10 +18,14 @@ void getColorTemperature() {
   Serial.print(y); 
 }
 
-void getBrightness() {
+float getBrightness() {
   GroveColorSensor colorSensor;
-  int red, green, blue, clear;
-  colorSensor.readRGBC(&red, &green, &blue, &clear);
-  Serial.print(clear);  
+  int _red, _green, _blue, _clear;
+  colorSensor.readRGBC(&_red, &_green, &_blue, &_clear);
+  float clear = _clear;
+  clear /= GAIN;
+  clear *= UW_CM2_PER_COUNT_X64 / 64;
+  clear *= LUX_PER_UW_CM2;
+  return clear;
 }
 

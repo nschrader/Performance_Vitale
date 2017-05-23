@@ -18,7 +18,7 @@ void loop() {
   //  return;
  // String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + gps + '\n';
   //Serial.print(out);
-  getColorTemperature();
+  Serial.println(getBrightness());
   delay(UPDATE_INTERVAL);
 }
 
