@@ -44,6 +44,13 @@ void parseGPGGA() {
 }
 
 bool isValidGPS(char *gps) {
-  return gps != NULL;
+  if (gps == NULL)
+    return;
+  bool n, s, w, e;
+  n = strstr(gps, "N") != NULL;
+  s = strstr(gps, "S") != NULL;
+  w = strstr(gps, "W") != NULL;
+  e = strstr(gps, "E") != NULL;
+  return (n || s) && (w || e);
 }
 
