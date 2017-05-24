@@ -109,108 +109,30 @@ void GroveColorSensor::readRGBC(int *red, int *green, int *blue, int *clear)
   double tmp;
   int maxColor;
 
-  if ( ledStatus == 1 )
-  {
-    red_  = red_  * 1.70;
-    blue_ = blue_ * 1.35;
-
-    maxColor = max(red_, green_);
-    maxColor = max(maxColor, blue_);
-
-    if (maxColor > 255)
-    {
-      tmp = 250.0 / maxColor;
-      green_	*= tmp;
-      red_ 	*= tmp;
-      blue_	*= tmp;
-    }
-  }
-  if ( ledStatus == 0 )
-  {
-    maxColor = max(red_, green_);
-    maxColor = max(maxColor, blue_);
-
-    tmp = 250.0 / maxColor;
-    green_	*= tmp;
-    red_ 	*= tmp;
-    blue_	*= tmp;
-
-  }
-
-  int minColor = min(red_, green_);
-  minColor = min(maxColor, blue_);
   maxColor = max(red_, green_);
   maxColor = max(maxColor, blue_);
 
-  int greenTmp = green_;
-  int redTmp 	 = red_;
-  int blueTmp	 = blue_;
-
-  //when turn on LED, need to adjust the RGB data,otherwise it is almost the white color
-  if (red_ < 0.8 * maxColor && red_ >= 0.6 * maxColor)
-  {
-    red_ *= 0.4;
-  }
-  else if (red_ < 0.6 * maxColor)
-  {
-    red_ *= 0.2;
-  }
-
-  if (green_ < 0.8 * maxColor && green_ >= 0.6 * maxColor)
-  {
-    green_ *= 0.4;
-  }
-  else if (green_ < 0.6 * maxColor)
-  {
-    if (maxColor == redTmp && greenTmp >= 2 * blueTmp && greenTmp >= 0.2 * redTmp)				//orange
-    {
-      green_ *= 5;
-    }
-    green_ *= 0.2;
-  }
-
-  if (blue_ < 0.8 * maxColor && blue_ >= 0.6 * maxColor)
-  {
-    blue_ *= 0.4;
-  }
-  else if (blue_ < 0.6 * maxColor)
-  {
-    if (maxColor == redTmp && greenTmp >= 2 * blueTmp && greenTmp >= 0.2 * redTmp)				//orange
-    {
-      blue_ *= 0.5;
-    }
-    if (maxColor == redTmp && greenTmp <= blueTmp && blueTmp >= 0.2 * redTmp)					//pink
-    {
-      blue_  *= 5;
-    }
-    blue_ *= 0.2;
-  }
-
-  minColor = min(red_, green_);
-  minColor = min(maxColor, blue_);
-  if (maxColor == green_ && red_ >= 0.85 * maxColor && minColor == blue_)						//yellow
-  {
-    red_ = maxColor;
-    blue_ *= 0.4;
-  }
-
-  *red   = red_;
-  *green = green_;
-  *blue  = blue_;
+  tmp = 250.0 / maxColor;
+  *green = green_	* tmp;
+  *red = red_ * tmp;
+  *blue = blue_	* tmp;
   *clear = clear_;
 }
 
 void GroveColorSensor::calculateCoordinate(double *xValue, double *yValue)
 {
+  int red, green, blue, clear;
+  readRGBC(&red, &green, &blue, &clear);
+  
   double X;
   double Y;
   double Z;
   double x;
   double y;
 
-  X = (-0.14282) * red_ + (1.54924) * green_ + (-0.95641) * blue_;
-  Y = (-0.32466) * red_ + (1.57837) * green_ + (-0.73191) * blue_;
-  Z = (-0.68202) * red_ + (0.77073) * green_ + (0.563320) * blue_;
+  X = (-0.14282) * red + (1.54924) * green + (-0.95641) * blue;
+  Y = (-0.32466) * red + (1.57837) * green + (-0.73191) * blue;
+  Z = (-0.68202) * red + (0.77073) * green + (0.563320) * blue;
 
   x = X / (X + Y + Z);
   y = Y / (X + Y + Z);

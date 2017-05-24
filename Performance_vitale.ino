@@ -10,19 +10,20 @@ void setup() {
 }
 
 void loop() {
-  //int ppm = getCO2();
-  //float h = getHumidity();
- // float t = getTemperature();
-  //char* gps = readGPS();
-  //if (!validateMeasures(ppm, h, t, gps))
-  //  return;
- // String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + gps + '\n';
-  //Serial.print(out);
-  Serial.println(getBrightness());
+  int ppm = getCO2();
+  float h = getHumidity();
+  float t = getTemperature();
+  int b = getBrightness();
+  int c = getColorTemperature();
+  char* gps = readGPS();
+  if (!validateMeasures(ppm, h, t, b, c, gps))
+    return;
+  String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + String(b) + ',' + String(c) + ',' + gps + '\n';
+  Serial.print(out);
   delay(UPDATE_INTERVAL);
 }
 
-bool validateMeasures(int ppm, float h, float t, char * gps) {
-  return isValidTempHumidity(h, t) && isValidGPS(gps); // && ppm != -1;
+bool validateMeasures(int ppm, float h, float t, int b, int c, char * gps) {
+  return isValidTempHumidity(h, t) && isValidLuminosity(b, c) && isValidGPS(gps); // && ppm != -1;
 }
 
