@@ -7,20 +7,20 @@
 #define LAT_OFFSET 18
 #define LAT_LONG_LENGTH 24
 
-SoftwareSerial SoftSerial(GPS_RX, GPS_TX);
+SoftwareSerial GPSSerial(GPS_RX, GPS_TX);
 char buffer[BUFFER_LENGTH];
 char out[LAT_LONG_LENGTH+1];
 int count = 0;
 
 void beginGPS() {
-  SoftSerial.begin(9600);
+  GPSSerial.begin(9600);
 }
 
 char *readGPS() {
   clearBufferArray();
-  while (SoftSerial.available())
+  while (GPSSerial.available())
   {
-    buffer[count++] = SoftSerial.read();  
+    buffer[count++] = GPSSerial.read();  
     if (count == BUFFER_LENGTH)
       break;
     if (!strcmp(&buffer[count-2], "$$"))

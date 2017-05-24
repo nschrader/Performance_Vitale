@@ -2,6 +2,8 @@
 
 #define UPDATE_INTERVAL 1000
 
+bool heating = true;
+
 void setup() {
   Serial.begin(9600);
   beginDHT();
@@ -16,10 +18,14 @@ void loop() {
   int b = getBrightness();
   int c = getColorTemperature();
   char* gps = readGPS();
-  if (!validateMeasures(ppm, h, t, b, c, gps))
-    return;
-  String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + String(b) + ',' + String(c) + ',' + gps + '\n';
-  Serial.print(out);
+  bool ok = validateMeasures(ppm, h, t, b, c, gps);
+  if (!ok && heating) {
+    Serial.print("Heating\n");
+  } else if (ok) {
+    heating = false;
+    String out = String(ppm) + ',' + String(h) + ',' + String(t) + ',' + String(b) + ',' + String(c) + ',' + gps + '\n';
+    Serial.print(out);
+  }
   delay(UPDATE_INTERVAL);
 }
 
