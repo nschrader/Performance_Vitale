@@ -31,7 +31,7 @@ int getBrightness() {
 }
 
 bool isValidLuminosity(int b, int c) {
-  return b > 0 && b < 7000 && c > 1000 && c < 10000;
+  return b > 0 && b < 7000 && c > 2800 && c < 6600;
 }
 
 static float calculateTemperature(float x, float y) {
