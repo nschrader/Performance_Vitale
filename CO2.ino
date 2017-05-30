@@ -51,5 +51,5 @@ Remarks: By using the slope and a point of the line. The x(logarithmic value of 
 static int  MGGetPercentage(float volts, float *pcurve) {
   volts = volts / DC_GAIN;
   int ppm = pow(10, (volts - pcurve[1]) / pcurve[2] + pcurve[0]);
-  return (ppm > 400 && ppm < 10000) ? ppm : -1;
+  return (ppm > 350 && ppm < 10000) ? ppm : -1;
 }
