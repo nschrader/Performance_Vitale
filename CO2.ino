@@ -24,7 +24,12 @@ float           CO2Curve[3]  =  {ZERO_POINT_X, ZERO_POINT_VOLTAGE, (REACTION_VOL
 
 int getCO2() {
   float mg = readAnalogVolatge(MG_PIN);
-  mg -= readAnalogVolatge(ADJ_PIN);
+  float adj = readAnalogVolatge(ADJ_PIN);
+#ifdef DEBUG
+  Serial.println("Adjustment voltage: " + String(adj));
+  Serial.println("CO2 voltage: " + String(mg));
+#endif
+  mg -= adj;
   return MGGetPercentage(mg, CO2Curve);
 }
 
