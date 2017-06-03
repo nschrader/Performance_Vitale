@@ -19,6 +19,9 @@ void loop() {
   int b = getBrightness();
   int c = getColorTemperature();
   char* gps = readGPS();
+  if(!isValidGPS(gps)){
+    gps="0,N,0,E";
+  }
   bool ok = validateMeasures(ppm, h, t, b, c, gps);
 #ifndef DEBUG
   if (!ok && heating) {
@@ -35,5 +38,5 @@ void loop() {
 }
 
 bool validateMeasures(int ppm, float h, float t, int b, int c, char * gps) {
-  return isValidTempHumidity(h, t) && isValidLuminosity(b, c) && isValidGPS(gps); // && ppm != -1;
+  return isValidTempHumidity(h, t) && isValidLuminosity(b, c); // && ppm != -1;
 }
