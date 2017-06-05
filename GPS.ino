@@ -27,6 +27,9 @@ char *readGPS() {
       break;
   }
   count = 0;
+#ifdef DEBUG
+  Serial.println(buffer);
+#endif
   if (!strncmp(buffer, "$GPGGA", 5)) {
     parseGPGGA();
     return out;

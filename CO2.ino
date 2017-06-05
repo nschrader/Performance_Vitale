@@ -28,6 +28,7 @@ int getCO2() {
 #ifdef DEBUG
   Serial.println("Adjustment voltage: " + String(adj));
   Serial.println("CO2 voltage: " + String(mg));
+  Serial.println("MG811 voltage: " + String(mg/DC_GAIN));
 #endif
   mg -= adj;
   return MGGetPercentage(mg, CO2Curve);
